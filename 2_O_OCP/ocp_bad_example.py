@@ -12,34 +12,47 @@ tipo de exame, uma nova classe seja adicionada, implementando métodos de uma in
 '''
 
 
-class AprovaExame:
-    def aprovar_solicitacao_exame(self, exame):
-
-        if exame_sangue.tipo == "sangue":
-            if aprovador.verifica_condicoes_exame_sangue(exame_sangue):
-                print("Exame sanguíneo aprovado!")
-
-        elif exame_raio_x.tipo == "raio-x":
-            if aprovador.verifica_condicoes_raio_x(exame_raio_x):
-                print("Raio-X aprovado!")
-                pass
-
-    def verifica_condicoes_exame_sangue(self, exame):
-        # implemente as condições específicas do exame de sangue
-        pass
-
-    def verifica_condicoes_raio_x(self, exame):
-        # implemente as condições específicas do exame de raio-x
-        pass
-
-# Exemplo de uso:
+# Interface (ou classe abstrata) que define o contrato para todos os exames
 class Exame:
-    def __init__(self, tipo):
-        self.tipo = tipo
+    def verifica_condicoes(self):
+        pass
 
-exame_sangue = Exame("sangue")
-exame_raio_x = Exame("raio-x")
+# Implementação específica para exame de sangue
+class ExameSangue(Exame):
+    def verifica_condicoes(self):
+        print("Verificando condições do exame de sangue...")
+        return True  # Exemplo: sempre aprova o exame de sangue
+
+# Implementação específica para exame de raio-x
+class ExameRaioX(Exame):
+    def verifica_condicoes(self):
+        print("Verificando condições do exame de raio-x...")
+        return True  # Exemplo: sempre aprova o exame de raio-x
+
+# Implementação específica para exame de ultrassom
+class ExameUltrassom(Exame):
+    def verifica_condicoes(self):
+        print("Verificando condições do exame de ultrassom...")
+        return True  # Exemplo: sempre aprova o exame de ultrassom
+
+# Classe que aprova exames
+class AprovaExame:
+    def do_work(self, exame: Exame) -> None:
+        if exame.verifica_condicoes():
+            print(f"Exame do tipo {exame.__class__.__name__} aprovado!")
+        else:
+            print(f"Exame do tipo {exame.__class__.__name__} reprovado.")
+
+# Exemplo de uso
+exame_sangue = ExameSangue()
+exame_raio_x = ExameRaioX()
+exame_ultrassom = ExameUltrassom()
 
 aprovador = AprovaExame()
+
+# Aprovação dos exames
+aprovador.do_work(exame_sangue)
+aprovador.do_work(exame_raio_x)
+aprovador.do_work(exame_ultrassom)
 
 
